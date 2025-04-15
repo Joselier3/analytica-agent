@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAssistant as useAiAssistant } from 'ai/react';
 import { MapCenter, MapMarker, useMap } from '@/context/Map';
+import { usePortfolio } from '@/context/PortfolioContext';
 
 function dataIsMapCenter(data: unknown): data is MapCenter {
   return (
@@ -18,9 +19,13 @@ function dataIsMapMarker(data: unknown): data is MapMarker {
 
 const useAssistant = () => {
   const { setCenter, addMarkers } = useMap();
+  const { portfolio } = usePortfolio();
 
   const useAssistantHelpers = useAiAssistant({
     api: '/api/openai/run-assistant',
+    body: {
+      portfolio: portfolio
+    }
   });
 
   const { messages, setThreadId } = useAssistantHelpers;

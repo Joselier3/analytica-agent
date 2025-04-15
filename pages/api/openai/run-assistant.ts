@@ -12,10 +12,21 @@ export default async function handler(req: Request) {
     const input: {
       threadId: string | null;
       message: string;
+      portfolio: {
+        portfolio_date: string;
+        assets: Array<{
+          name: string;
+          ticker: string;
+          asset_class: string;
+          current_price: string;
+          portfolio_percentage: number;
+          annual_return: string;
+        }>;
+      };
     } = await req.json();
 
     const threadId = input.threadId ?? (await openai.beta.threads.create({})).id;
-    const { message } = input;
+    const { message, portfolio } = input;
 
     const assistantId = process.env.OPENAI_ASSISTANT_ID || '';
 
@@ -31,9 +42,23 @@ export default async function handler(req: Request) {
       return new Response('Assistant ID is required', { status: 400 });
     }
 
+    // Add portfolio information to the message
+    const portfolioContext = `Current Portfolio Information:
+Date: ${portfolio.portfolio_date}
+Assets:
+${portfolio.assets.map(asset => `
+- ${asset.name} (${asset.ticker})
+  Class: ${asset.asset_class}
+  Current Price: ${asset.current_price}
+  Portfolio %: ${asset.portfolio_percentage}%
+  Annual Return: ${asset.annual_return}
+`).join('')}`;
+
+    const fullMessage = `${portfolioContext}\n\nUser Message: ${message}`;
+
     const createdMessage = await openai.beta.threads.messages.create(threadId, {
       role: 'user',
-      content: message,
+      content: fullMessage,
     });
 
     return AssistantResponse(

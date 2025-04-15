@@ -4,6 +4,7 @@ import { cssHalfMainSize, cssMainSize } from '@/theme';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 import useAssistant from '@/hooks/useAssistant';
+import PortfolioButton from '../Portfolio/PortfolioButton';
 
 const Chat = () => {
   const { messages, status, append, setThreadId } = useAssistant();
@@ -16,6 +17,7 @@ const Chat = () => {
         p="md"
         style={{ position: 'relative', borderRadius: '20px', height: conversationHeightPx }}
       >
+        <PortfolioButton />
         <MessageList messages={messages} />
       </Box>
       <MessageInput

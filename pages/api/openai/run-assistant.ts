@@ -80,39 +80,25 @@ ${portfolio.assets.map(asset => `
               const parameters = JSON.parse(toolCall.function.arguments);
 
               switch (toolCall.function.name) {
-                case 'update_map':
-                  const { longitude, latitude, zoom } = parameters;
+                case 'create_visualization':
+                  const { type, title, data, config } = parameters;
 
                   sendDataMessage({
                     role: 'data',
                     data: {
-                      type: 'update_map',
-                      longitude,
-                      latitude,
-                      zoom,
+                      type: 'visualization',
+                      visualization: {
+                        type,
+                        title,
+                        data,
+                        config,
+                      },
                     },
                   });
 
                   return {
                     tool_call_id: toolCall.id,
-                    output: `Map updated to center: ${longitude}, ${latitude} with zoom ${zoom}`,
-                  };
-
-                case 'add_marker':
-                  const { longitude: markerLng, latitude: markerLat, label } = parameters;
-
-                  sendDataMessage({
-                    role: 'data',
-                    data: {
-                      type: 'add_marker',
-                      location: { lat: markerLat, lng: markerLng },
-                      label,
-                    },
-                  });
-
-                  return {
-                    tool_call_id: toolCall.id,
-                    output: `Marker added at ${markerLng}, ${markerLat} with label "${label}"`,
+                    output: `Created ${type} chart: ${title}`,
                   };
 
                 default:
@@ -131,8 +117,6 @@ ${portfolio.assets.map(asset => `
     );
   } catch (error) {
     console.error('The API encountered an error:', error);
-
-    // return res.status(500).json({ error: 'Internal Server Error' });
     return new Response('Internal Server Error', { status: 500 });
   }
 }

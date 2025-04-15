@@ -1,25 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useAssistant as useAiAssistant } from 'ai/react';
-import { MapCenter, MapMarker, useMap } from '@/context/Map';
+import { useVisualization, ChartData } from '@/context/Visualization';
 import { usePortfolio } from '@/context/PortfolioContext';
 
-function dataIsMapCenter(data: unknown): data is MapCenter {
-  return (
-    !!data &&
-    typeof data === 'object' &&
-    'longitude' in data &&
-    'latitude' in data &&
-    'zoom' in data
-  );
-}
-
-function dataIsMapMarker(data: unknown): data is MapMarker {
-  return !!data && typeof data === 'object' && 'location' in data && 'label' in data;
-}
-
 const useAssistant = () => {
-  const { setCenter, addMarkers } = useMap();
   const { portfolio } = usePortfolio();
+  const { setChart, clearChart } = useVisualization();
 
   const useAssistantHelpers = useAiAssistant({
     api: '/api/openai/run-assistant',
@@ -45,14 +31,11 @@ const useAssistant = () => {
       const { type, ...data } = m.data;
 
       switch (type) {
-        case 'update_map':
-          if (dataIsMapCenter(data)) {
-            setCenter(data);
-          }
-          break;
-        case 'add_marker':
-          if (dataIsMapMarker(data)) {
-            addMarkers([{ location: data.location, label: data.label }]);
+        case 'visualization':
+          if ('visualization' in data) {
+            console.log('Received visualization data:', data.visualization);
+            const chartData = data.visualization as ChartData;
+            setChart(chartData);
           }
           break;
         default:
@@ -61,7 +44,14 @@ const useAssistant = () => {
 
       processedMessageIds.current.add(m.id);
     });
-  }, [messages, setCenter, addMarkers]);
+  }, [messages, setChart]);
+
+  // Clear visualization when starting a new thread
+  useEffect(() => {
+    if (!messages.length) {
+      clearChart();
+    }
+  }, [messages.length, clearChart]);
 
   return {
     ...useAssistantHelpers,

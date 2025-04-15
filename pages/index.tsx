@@ -1,13 +1,18 @@
-import { SimpleGrid } from '@mantine/core';
+import { Container, Grid } from '@mantine/core';
 import Chat from '@/components/Chat';
-import Map from '@/components/Map';
-import { cssMainSize } from '@/theme';
+import Visualization from '@/components/Visualization';
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <SimpleGrid m="xl" cols={{ base: 1, sm: 2 }} h={cssMainSize}>
-      <Chat />
-      <Map />
-    </SimpleGrid>
+    <Container fluid h="100%">
+      <Grid h="100%" gutter={0} style={{ margin: 0 }}>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Chat />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 6 }}>
+          <Visualization />
+        </Grid.Col>
+      </Grid>
+    </Container>
   );
 }

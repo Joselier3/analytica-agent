@@ -1,16 +1,63 @@
-# Mantine Next.js template
+# Investment Portfolio Assistant
 
-This is a template for [Next.js](https://nextjs.org/) pages router + [Mantine](https://mantine.dev/).
-If you want to use app router instead, see [next-app-template](https://github.com/mantinedev/next-app-template).
+An intelligent assistant that helps users analyze and visualize their investment portfolio. Built with Next.js, Mantine UI, and powered by AI.
 
 ## Features
 
-This template comes with the following features:
+- **Portfolio Management**: Add, update, and remove assets in your investment portfolio
+- **Interactive Visualizations**: View your portfolio data through dynamic charts and graphs
+- **AI-Powered Analysis**: Get insights and recommendations about your investments
+- **Real-time Data**: Analyze performance metrics and portfolio allocation
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Jest](https://jestjs.io/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- ESLint setup with [eslint-config-mantine](https://github.com/mantinedev/eslint-config-mantine)
+### Visualization Types
+
+The assistant can create several types of visualizations to help analyze your portfolio:
+
+- **Bar Charts**: Compare assets by return rates, allocation percentages, or other metrics
+- **Pie Charts**: View portfolio allocation and distributions
+- **Line Charts**: Analyze trends and performance over time
+
+### Portfolio Data
+
+The system manages a complete portfolio with detailed asset information:
+- Asset names and tickers
+- Asset classes
+- Current prices
+- Portfolio allocation percentages
+- Annual returns
+
+## Getting Started
+
+### Install dependencies
+
+```bash
+npm install
+# or
+yarn
+```
+
+### Run the development server
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to see the application.
+
+## Usage
+
+1. Click the "Mi Portafolio" button to view and edit your portfolio
+2. Ask the assistant questions about your investments
+3. Request visualizations to better understand your portfolio's performance and allocation
+
+## Technical Implementation
+
+- **Frontend**: Next.js with Mantine UI components
+- **Visualization**: Recharts library for responsive data visualization
+- **State Management**: React Context API for portfolio and visualization state
+- **AI Integration**: OpenAI-powered assistant for natural language analysis
 
 ## npm scripts
 

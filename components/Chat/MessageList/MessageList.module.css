@@ -1,13 +1,21 @@
+.scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mantine-color-gray-4) transparent;
+}
+
 .scrollable::-webkit-scrollbar {
-  width: 0.4rem;
+  width: 6px;
 }
 
 .scrollable::-webkit-scrollbar-track {
-  display: none;
+  background: transparent;
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-  background-color: rgb(154, 154, 154);
-  outline: 1px solidrgb(191, 191, 191) rey;
-  border-radius: 2rem;
+  background-color: var(--mantine-color-gray-4);
+  border-radius: 3px;
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+  background-color: var(--mantine-color-gray-5);
 }

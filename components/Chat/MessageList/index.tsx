@@ -12,21 +12,34 @@ export default function MessageList({ messages }: Props) {
     return null;
   }
 
+  const filteredMessages = messages.filter((message) => !message.data);
+
   return (
-    <Stack className={classes.scrollable} h="100%" gap="64px" style={{ overflow: 'auto' }}>
+    <Stack 
+      className={classes.scrollable} 
+      h="100%" 
+      gap="md" 
+      style={{ 
+        overflow: 'auto',
+        padding: '1rem'
+      }}
+    >
       <Message
         key="welcome"
         message={{
           id: 'welcome',
           role: 'assistant',
-          content: 'Hi there! Where would you like to go?',
+          content: 'Hi there! I can help you analyze your investment portfolio and provide insights. What would you like to know?',
         }}
+        isLatest={filteredMessages.length === 0}
       />
-      {messages
-        .filter((message) => !message.data)
-        .map((message, index) => (
-          <Message key={index} message={message} />
-        ))}
+      {filteredMessages.map((message, index) => (
+        <Message 
+          key={message.id} 
+          message={message}
+          isLatest={index === filteredMessages.length - 1}
+        />
+      ))}
     </Stack>
   );
 }
